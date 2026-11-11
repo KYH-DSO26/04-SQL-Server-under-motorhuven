@@ -64,8 +64,31 @@ select name, type_desc, is_unique
 from sys.indexes
 where object_id = object_id('dbo.AuditLogs_Clustered');
 
--- Uppgift 5
+-- Inför uppgift 5: skapa och ladda ny tabell dbo.Servers
+CREATE TABLE dbo.Servers(
+	Id int IDENTITY(1,1) NOT NULL primary key,
+	ServerName nvarchar(100) NOT NULL
+);
+GO
+
+
+insert into dbo.Servers
+values ('Dev-Db-01'),('Prod-Web-01'),('Stage-App-02');
+go
+
+-- Uppgift 5: Säkerställa unika värden
 alter table dbo.Servers
 add constraint UQ_Servers_ServerName unique (ServerName);
 -- Ger oss ett (UNIQUE NONCLUSTERED INDEX)
--- Villket ger oss att det inte kan bli några dubletter för ServerName
+-- Vilket ger oss att det inte kan bli några dubletter för ServerName
+
+-- Uppgift 6: Detektera en Table Scan
+select * from AuditLogs_Heap 
+where LogMessage = 'DevSecOps Audit event log #45236 - Firewall traffic authorized.';
+-- SQL Server visar att den har gjort en TABLE SCAN och letat igenom alla 50 000 rader
+
+-- Uppgift 7: Blixtsnabb sökning (Index Seek)
+select * from AuditLogs_Clustered
+where Id = 45236;
+
+-- Uppgift 8: Den dolda kostnaden (Key Lookup)
