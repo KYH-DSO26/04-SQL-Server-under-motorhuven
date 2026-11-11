@@ -157,7 +157,7 @@ GO
 -- Körs mot de 10 000 tunga incident-raderna som matades in i startskriptet.
 SELECT s.ServerName, i.IncidentType, i.Severity
 FROM dbo.Incidents i
-INNER JOIN dbo.Servers s ON i.IncidentServersId = s.Id -- Här kraschar det om startskriptets FK mappar fel!
+INNER JOIN dbo.Servers s ON i.ServersId = s.Id 
 WHERE i.IncidentType = 'SQLi-Attempt' AND s.Environment = 'Production';
 GO
 
@@ -170,12 +170,12 @@ GO
 -- =========================================================================
 -- UPPGIFT 10: OPTIMERING AV RELEVANTA FRÄMMANDE NYCKLAR (FK)
 -- =========================================================================
-IF EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_Incidents_IncidentServersId' AND object_id = OBJECT_ID('dbo.Incidents'))
-    DROP INDEX IX_Incidents_IncidentServersId ON dbo.Incidents;
+IF EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_Incidents_ServersId' AND object_id = OBJECT_ID('dbo.Incidents'))
+    DROP INDEX IX_Incidents_ServersId ON dbo.Incidents;
 GO
 
-CREATE NONCLUSTERED INDEX IX_Incidents_IncidentServersId
-ON dbo.Incidents (IncidentServersId)
+CREATE NONCLUSTERED INDEX IX_Incidents_ServersId
+ON dbo.Incidents (ServersId)
 INCLUDE (IncidentType, Severity);
 GO
 
@@ -186,7 +186,7 @@ GO
 -- Kör om queryn från Uppgift 9 och analysera exekveringsplanen igen.
 SELECT s.ServerName, i.IncidentType, i.Severity
 FROM dbo.Incidents i
-INNER JOIN dbo.Servers s ON i.IncidentServersId = s.Id
+INNER JOIN dbo.Servers s ON i.ServersId = s.Id
 WHERE i.IncidentType = 'SQLi-Attempt' AND s.Environment = 'Production';
 GO
 
@@ -217,7 +217,7 @@ BEGIN
         i.IncidentDate, 
         i.Severity
     FROM dbo.Incidents i
-    INNER JOIN dbo.Servers s ON i.IncidentServersId = s.Id
+    INNER JOIN dbo.Servers s ON i.ServersId = s.Id
     WHERE s.Environment = @Environment 
       AND i.Severity = @Severity;
 END;
