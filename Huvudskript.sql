@@ -57,3 +57,15 @@ create nonclustered index IX_AuditLogs_CreatedAt
 on AuditLogs_Clustered(CreatedAt);
 go
 
+-- Uppgift 4. Verifiera indexstrukturen
+-- select top 10 * from sys.indexes
+
+select name, type_desc, is_unique
+from sys.indexes
+where object_id = object_id('dbo.AuditLogs_Clustered');
+
+-- Uppgift 5
+alter table dbo.Servers
+add constraint UQ_Servers_ServerName unique (ServerName);
+-- Ger oss ett (UNIQUE NONCLUSTERED INDEX)
+-- Villket ger oss att det inte kan bli några dubletter för ServerName
