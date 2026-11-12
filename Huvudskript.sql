@@ -16,7 +16,7 @@
 PRINT '=== Startar körning av samtliga skript ===';
 
 PRINT 'Steg 1: Kör Lektion 1 Facit...';
-:r "Lektion_1_Facit.sql"
+:r "Lektion 1 Facit.sql"
 GO
 
 PRINT 'Steg 2: Kör Lektion 2 Facit...';
