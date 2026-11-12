@@ -170,7 +170,7 @@ GO
 -- Uppgift 15: Skölden aktiveras
 -- Ger exekveringsrättighet exklusivt till den säkra Stored Proceduren.
 PRINT 'Kör lösning för Uppgift 15...';
-GRANT EXECUTE ON sp_RegisterServer TO FailsafeApp;
+GRANT EXECUTE ON usp_RegisterServer TO FailsafeApp;
 PRINT '-> EXEKVERINGSRÄTTIGHET (GRANT EXECUTE) har tilldelats FailsafeApp.';
 GO
 
